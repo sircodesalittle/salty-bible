@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "salty-bible",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

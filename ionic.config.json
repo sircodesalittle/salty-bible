@@ -1,0 +1,8 @@
+{
+  "name": "salty-bible",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "a51fff58"
+}
