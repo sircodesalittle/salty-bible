@@ -1,6 +1,6 @@
-import MessageListItem from '../components/MessageListItem';
-import { useState } from 'react';
-import { Message, getMessages } from '../data/messages';
+import MessageListItem from '../components/UserListItem';
+import {useEffect, useState} from 'react';
+import {getUsers, User} from '../data/users';
 import {
   IonContent,
   IonHeader,
@@ -13,15 +13,16 @@ import {
   useIonViewWillEnter
 } from '@ionic/react';
 import './Home.css';
+import UserListItem from "../components/UserListItem";
 
 const Home: React.FC = () => {
 
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
-  useIonViewWillEnter(() => {
-    const msgs = getMessages();
-    setMessages(msgs);
-  });
+  useEffect(() => {
+    const _users = getUsers();
+    setUsers(_users);
+  }, []);
 
   const refresh = (e: CustomEvent) => {
     setTimeout(() => {
@@ -38,7 +39,7 @@ const Home: React.FC = () => {
       </IonHeader>
       <IonContent fullscreen>
         <IonRefresher slot="fixed" onIonRefresh={refresh}>
-          <IonRefresherContent></IonRefresherContent>
+          <IonRefresherContent/>
         </IonRefresher>
 
         <IonHeader collapse="condense">
@@ -50,7 +51,7 @@ const Home: React.FC = () => {
         </IonHeader>
 
         <IonList>
-          {messages.map(m => <MessageListItem key={m.id} message={m} />)}
+          {users.map(u => <UserListItem key={u.id} user={u} />)}
         </IonList>
       </IonContent>
     </IonPage>
