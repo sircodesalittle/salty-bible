@@ -1,0 +1,7 @@
+#view-user-page ion-checkbox {
+  --size: 25%;
+}
+
+#view-user-page ion-label {
+  font-size: 8vw;
+}

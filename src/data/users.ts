@@ -1,14 +1,14 @@
-import {DateRead} from "./plans";
+import {ReadingDate} from "./plans";
 
 export interface User {
     id: number,
     name: string,
     email: string,
     activePlan: string,
-    lastReadOT1: DateRead,
-    lastReadOT2: DateRead,
-    lastReadNT1: DateRead,
-    lastReadNT2: DateRead
+    lastReadOT1Date: ReadingDate,
+    lastReadOT2Date: ReadingDate,
+    lastReadNT1Date: ReadingDate,
+    lastReadNT2Date: ReadingDate
 }
 
 const users: User[] = [
@@ -17,40 +17,40 @@ const users: User[] = [
         name: "Alex Dykstra",
         email: "alex@alexdykstra.com",
         activePlan: "1",
-        lastReadOT1: "0101",
-        lastReadOT2: "0000",
-        lastReadNT1: "0000",
-        lastReadNT2: "0101"
+        lastReadOT1Date: "0101",
+        lastReadOT2Date: "0000",
+        lastReadNT1Date: "0000",
+        lastReadNT2Date: "0101"
     },
     {
         id: 1,
         name: "Torey Mercurio",
         email: "mtmercurio@gmail.com",
         activePlan: "1",
-        lastReadOT1: "0203",
-        lastReadOT2: "0000",
-        lastReadNT1: "1210",
-        lastReadNT2: "0101"
+        lastReadOT1Date: "0203",
+        lastReadOT2Date: "0000",
+        lastReadNT1Date: "1110",
+        lastReadNT2Date: "0101"
     },
     {
         id: 2,
         name: "Matt One",
         email: "mattone@gmail.com",
         activePlan: "1",
-        lastReadOT1: "0203",
-        lastReadOT2: "0000",
-        lastReadNT1: "1210",
-        lastReadNT2: "0101"
+        lastReadOT1Date: "0203",
+        lastReadOT2Date: "0000",
+        lastReadNT1Date: "1110",
+        lastReadNT2Date: "0101"
     },
     {
         id: 3,
         name: "Matt Two",
         email: "matttwo@gmail.com",
         activePlan: "1",
-        lastReadOT1: "0303",
-        lastReadOT2: "0000",
-        lastReadNT1: "1113",
-        lastReadNT2: "0101"
+        lastReadOT1Date: "0303",
+        lastReadOT2Date: "0000",
+        lastReadNT1Date: "1013",
+        lastReadNT2Date: "0101"
     },
 ];
 
