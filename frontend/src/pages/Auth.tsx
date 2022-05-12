@@ -6,10 +6,12 @@ import {
   IonList,
   IonPage,
 } from '@ionic/react';
+import { useHistory } from 'react-router';
 
 const Auth: React.FC = () => {
 
   const [authUrl, setAuthUrl] = useState("");
+  const history = useHistory();
 
   useEffect(() => {
       /**
@@ -37,20 +39,15 @@ const Auth: React.FC = () => {
       headers: new Headers({
           'Authorization': 'Bearer ' + resp.token, 
       })
-  }).then(resp => resp.json()).then((data) => console.log(data))
+  }).then(resp => resp.json()).then((data) => {
+    if (data.isAuthenticated) {
+      localStorage.setItem('salty_token', resp.token);
+      history.push('/login')
+    }
+  })
   })
     
   }, []);
-
-  const testClick = () => {
-    fetch('http://localhost:3333/authcheck', { 
-    method: 'get', 
-    headers: new Headers({
-        'Authorization': 'Bearer ', 
-        'Content-Type': 'application/x-www-form-urlencoded'
-    })
-}).then((response) => response.json()).then(d=>console.log(d))
-  }
 
   return (
     <IonPage id="auth-page">

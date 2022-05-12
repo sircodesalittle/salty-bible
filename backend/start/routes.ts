@@ -20,7 +20,6 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 import User from 'App/Models/User'
-import allyConfig from 'Config/ally'
 
 Route.get('/', async () => {
   return { hello: 'world' }
@@ -35,13 +34,27 @@ Route.get('/:provider/redirect', async ({ ally, auth, response, params }) => {
   return response.send({ redirectUrl: await ally.use(params.provider).stateless().redirectUrl() })
 })
 
-Route.get('/:provider/callback', async ({ ally, auth, response, params }) => {
+Route.get('/:provider/callback', async ({ ally, auth, response }) => {
 
   const googleAuth = ally.use('google')
 
   /**
    * Managing error states here
    */
+    
+  /**
+   * User has explicitly denied the login request.
+   */
+     if (googleAuth.accessDenied()) {
+      return 'Access was denied'
+    }
+  
+    /**
+     * There was an unknown error during the redirect.
+     */
+    if (googleAuth.hasError()) {
+      return googleAuth.getError()
+    }
 
   const googleUser = await googleAuth.user()
 
@@ -50,7 +63,6 @@ Route.get('/:provider/callback', async ({ ally, auth, response, params }) => {
    * a new one
    */
   if (googleUser.email) {
-    console.log(googleUser.token)
     const user = await User.firstOrCreate({
       email: googleUser.email,
     }, {
@@ -66,7 +78,13 @@ Route.get('/:provider/callback', async ({ ally, auth, response, params }) => {
 })
 
 Route.get('/authcheck', async ({ auth }) => { 
-  // const user = await ally.use
   await auth.use('api').authenticate()
-  return {'authenticated' : auth.use('api').user! }
+  return {'isAuthenticated' : auth.use('api').isAuthenticated }
+})
+
+Route.post('/logout', async ({ auth }) => {
+  await auth.use('api').revoke()
+  return {
+    revoked: true
+  }
 })

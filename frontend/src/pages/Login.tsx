@@ -19,17 +19,25 @@ const Login: React.FC = () => {
         setAuthUrl(data.redirectUrl);
     })
 
-    
+
   }, []);
 
   const testClick = () => {
     fetch('http://localhost:3333/authcheck', { 
     method: 'get', 
     headers: new Headers({
-        'Authorization': 'Bearer ', 
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Authorization': 'Bearer ' + localStorage.getItem('salty_token')
     })
 }).then((response) => response.json()).then(d=>console.log(d))
+  }
+
+  const logoutClick = () => {
+      fetch('http://localhost:3333/logout', {
+        method: 'post', 
+        headers: new Headers({
+            'Authorization': 'Bearer ' + localStorage.getItem('salty_token')
+        })
+    }).then((response) => response.json()).then(d=>console.log(d))
   }
 
   return (
@@ -37,6 +45,7 @@ const Login: React.FC = () => {
       <IonContent fullscreen>
         <IonButton href={authUrl}>Login</IonButton>
         <IonButton onClick={testClick}>Test Auth</IonButton>
+        <IonButton onClick={logoutClick}>Logout</IonButton>
       </IonContent>
     </IonPage>
   );
