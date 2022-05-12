@@ -23,6 +23,8 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import ViewUser from "./pages/ViewUser";
 import React from "react";
+import Login from './pages/Login';
+import Auth from './pages/Auth';
 
 setupIonicReact();
 
@@ -38,6 +40,12 @@ const App: React.FC = () => (
         </Route>
         <Route path="/user/:id">
            <ViewUser />
+        </Route>
+        <Route path="/auth">
+          <Auth />
+        </Route>
+        <Route path="/login" exact={true}>
+          <Login />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
