@@ -1,6 +1,27 @@
 version: '3.8'
 
 services:
+  traefik:
+    image: "traefik:v2.6"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443" # new
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true" # new
+      - "--certificatesresolvers.myresolver.acme.email=alex@alexdykstra.com" # new
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json" # new
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"
+
+
   postgres:
     container_name: postgres
     image: postgres:13
@@ -46,6 +67,11 @@ services:
     volumes:
       - ./:/home/node/app
     command: dumb-init node ace serve --watch --node-args="--inspect=0.0.0.0"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.salty-backend.rule=Host(`salty-backend.yas.family`)"
+      - "traefik.http.routers.salty-backend.entrypoints=web,websecure"
+      - "traefik.http.routers.salty-backend.tls.certresolver=myresolver"
 
 volumes:
   postgres_volume:
